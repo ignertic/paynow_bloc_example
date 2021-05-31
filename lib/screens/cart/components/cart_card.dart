@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:paynow_bloc/paynow_bloc.dart';
 import 'package:shop_app/models/Cart.dart';
 
 import '../../../constants.dart';
@@ -40,17 +42,41 @@ class CartCard extends StatelessWidget {
               maxLines: 2,
             ),
             SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: "\$${cart.product.price}",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600, color: kPrimaryColor),
-                children: [
+            BlocBuilder<PaynowBloc, PaynowState>(
+              builder: (context, state){
+                return Text.rich(
                   TextSpan(
-                      text: " x${cart.numOfItem}",
-                      style: Theme.of(context).textTheme.bodyText1),
-                ],
-              ),
+                    text: "\$${cart.product.price}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: kPrimaryColor),
+                    children: [
+                      TextSpan(
+                          text: " x${state.cartItems[cart.product]??0}",
+                          style: Theme.of(context).textTheme.bodyText1),
+                    ],
+                  ),
+                );
+              },
+            ),
+            ElevatedButton(
+              child: Text("Add To Cart"),
+              onPressed:(){
+                // add to card
+                BlocProvider.of<PaynowBloc>(context).add(AddItemToCartEvent(cart.product));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Added ${cart.product.title} to cart"),
+                ));
+              } ,
+            ),
+            ElevatedButton(
+              child: Text("Remove"),
+              onPressed:(){
+                // remove from cart
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Removed ${cart.product.title}"),
+                ));
+                BlocProvider.of<PaynowBloc>(context).add(RemoveItemFromCartEvent(cart.product));
+              },
             )
           ],
         )

@@ -35,6 +35,7 @@ TextTheme textTheme() {
   return TextTheme(
     bodyText1: TextStyle(color: kTextColor),
     bodyText2: TextStyle(color: kTextColor),
+
   );
 }
 

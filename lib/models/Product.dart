@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:paynow_bloc/paynow_bloc.dart';
 
-class Product {
+
+class Product extends PaynowCartItem {
   final int id;
-  final String title, description;
+  final String title;
+  final String description;
   final List<String> images;
   final List<Color> colors;
   final double rating, price;
@@ -18,8 +21,9 @@ class Product {
     @required this.title,
     @required this.price,
     @required this.description,
-  });
+  }) : super(title: title, price: price);
 }
+
 
 // Our demo Products
 
@@ -98,6 +102,11 @@ List<Product> demoProducts = [
     isFavourite: true,
   ),
 ];
+
+// main(){
+//   Product f = Product();
+//
+// }
 
 const String description =
     "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";

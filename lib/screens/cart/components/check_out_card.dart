@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:paynow_bloc/paynow_bloc.dart';
 import 'package:shop_app/components/default_button.dart';
 
 import '../../../constants.dart';
@@ -60,29 +62,80 @@ class CheckoutCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: "Total:\n",
+            BlocBuilder<PaynowBloc, PaynowState>(
+              builder: (context, state){
+                if (state is PaynowInitialState){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextSpan(
-                        text: "\$337.15",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      Text.rich(
+                        TextSpan(
+                          text: "Total:\n",
+                          children: [
+                            TextSpan(
+                              text: "${state.total}",
+                              style: TextStyle(fontSize: 16, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(190),
+                        child: DefaultButton(
+                          text: "Check Out",
+                          press: () {
+                            // issue checkout event
+                            BlocProvider.of<PaynowBloc>(context).add(PaynowCheckoutEvent(
+                              paynowPaymentInfo: PaynowPaymentInfo(
+                                authEmail: "gishobertgwenzi@outlook.com",
+                                reference: "paynow_bloc_example",
+                                paymentMethod: PaynowPaymentMethod.web,
+                                phone: "0784442662",
+
+                              )
+                            ));
+                          },
+                        ),
                       ),
                     ],
-                  ),
-                ),
-                SizedBox(
-                  width: getProportionateScreenWidth(190),
-                  child: DefaultButton(
-                    text: "Check Out",
-                    press: () {},
-                  ),
-                ),
-              ],
+                  );
+                }else if (state is PaynowLoadingState){
+                  return Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CircularProgressIndicator(),
+                        Text("Payment In Progress")
+                      ],
+                    )
+                  );
+                }else if (state is PaynowPaymentSuccessfulState){
+                  return ElevatedButton(
+                    onPressed: (){
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Your payment was successful"),
+                        backgroundColor: Colors.green,
+                      ));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(Icons.check_circle, color: Colors.white,),
+                        Text("Payment Successful", style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w900
+                        ),)
+                      ],
+                    ),
+                  );
+                }else if (state is PaynowPaymentFailureState){
+                  return Text("Payment Failed -> ${state.message}");
+                }else{
+                  return Text("In state -> $state");
+                }
+              },
             ),
+
           ],
         ),
       ),
