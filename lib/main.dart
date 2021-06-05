@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paynow_bloc/paynow_bloc.dart';
-import 'package:shop_app/routes.dart';
-import 'package:shop_app/theme.dart';
+import 'routes.dart';
+import 'theme.dart';
 
 import 'screens/cart/cart_screen.dart';
 // import 'package:'

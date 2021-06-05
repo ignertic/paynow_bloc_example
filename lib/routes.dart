@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:shop_app/screens/cart/cart_screen.dart';
+import 'screens/cart/cart_screen.dart';
 
 // We use name route
 // All our routes will be available here
