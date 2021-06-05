@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paynow_bloc/paynow_bloc.dart';
 import 'package:shop_app/routes.dart';
-import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
+
+import 'screens/cart/cart_screen.dart';
 // import 'package:'
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       // home: SplashScreen(),
       // We use routeName so that we dont need to remember the name
-      initialRoute: SplashScreen.routeName,
+      initialRoute: CartScreen.routeName,
       routes: routes,
     );
     final paynow = Paynow(

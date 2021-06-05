@@ -30,8 +30,7 @@ dependencies:
   # if you are using latest flutter please update your flutter_svg package to ^0.18.*
   flutter_svg: ^0.19.1 # help us to use SVG in our app
   flutter_bloc: ^7.0.0
-  paynow_bloc:
-    path: /home/supercode/dev/flutter/paynow_bloc
+  paynow_bloc: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -85,8 +85,6 @@ class CheckoutCard extends StatelessWidget {
                           child: DefaultButton(
                             text: "Check Out",
                             press: () {
-
-
                               // issue checkout event
                               BlocProvider.of<PaynowBloc>(context).add(PaynowCheckoutEvent(
                                 paynowPaymentInfo: PaynowPaymentInfo(
