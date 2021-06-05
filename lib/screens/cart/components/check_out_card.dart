@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paynow_bloc/paynow_bloc.dart';
 import 'package:shop_app/components/default_button.dart';
-
+import 'package:flutter/cupertino.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
@@ -64,41 +64,48 @@ class CheckoutCard extends StatelessWidget {
             SizedBox(height: getProportionateScreenHeight(20)),
             BlocBuilder<PaynowBloc, PaynowState>(
               builder: (context, state){
-                if (state is PaynowInitialState){
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text.rich(
-                        TextSpan(
-                          text: "Total:\n",
-                          children: [
-                            TextSpan(
-                              text: "${state.total}",
-                              style: TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ],
+                final checkoutButton = Column(
+                  children : [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text.rich(
+                          TextSpan(
+                            text: "Total:\n",
+                            children: [
+                              TextSpan(
+                                text: "${state.total}",
+                                style: TextStyle(fontSize: 16, color: Colors.black),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: getProportionateScreenWidth(190),
-                        child: DefaultButton(
-                          text: "Check Out",
-                          press: () {
-                            // issue checkout event
-                            BlocProvider.of<PaynowBloc>(context).add(PaynowCheckoutEvent(
-                              paynowPaymentInfo: PaynowPaymentInfo(
-                                authEmail: "gishobertgwenzi@outlook.com",
-                                reference: "paynow_bloc_example",
-                                paymentMethod: PaynowPaymentMethod.web,
-                                phone: "0784442662",
+                        SizedBox(
+                          width: getProportionateScreenWidth(190),
+                          child: DefaultButton(
+                            text: "Check Out",
+                            press: () {
 
-                              )
-                            ));
-                          },
+
+                              // issue checkout event
+                              BlocProvider.of<PaynowBloc>(context).add(PaynowCheckoutEvent(
+                                paynowPaymentInfo: PaynowPaymentInfo(
+                                  authEmail: "gishobertgwenzi@outlook.com", //replace with your paynow email here when testing
+                                  reference: "paynow_bloc_example",
+                                  paymentMethod: PaynowPaymentMethod.web,
+                                )
+                              ));
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    ),
+
+                  ]
+                );
+
+                if (state is PaynowInitialState){
+                  return checkoutButton;
                 }else if (state is PaynowLoadingState){
                   return Center(
                     child: Row(
@@ -131,7 +138,7 @@ class CheckoutCard extends StatelessWidget {
                 }else if (state is PaynowPaymentFailureState){
                   return Text("Payment Failed -> ${state.message}");
                 }else{
-                  return Text("In state -> $state");
+                  return checkoutButton;
                 }
               },
             ),

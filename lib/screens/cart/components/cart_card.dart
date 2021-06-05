@@ -61,8 +61,9 @@ class CartCard extends StatelessWidget {
             ElevatedButton(
               child: Text("Add To Cart"),
               onPressed:(){
-                // add to card
+                // add to cart
                 BlocProvider.of<PaynowBloc>(context).add(AddItemToCartEvent(cart.product));
+
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("Added ${cart.product.title} to cart"),
                 ));
@@ -72,10 +73,11 @@ class CartCard extends StatelessWidget {
               child: Text("Remove"),
               onPressed:(){
                 // remove from cart
+                BlocProvider.of<PaynowBloc>(context).add(RemoveItemFromCartEvent(cart.product));
+
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text("Removed ${cart.product.title}"),
                 ));
-                BlocProvider.of<PaynowBloc>(context).add(RemoveItemFromCartEvent(cart.product));
               },
             )
           ],

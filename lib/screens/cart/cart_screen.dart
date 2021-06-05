@@ -21,7 +21,7 @@ class CartScreen extends StatelessWidget {
             ));
           }else if (state is PaynowPaymentSuccessfulState){
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Great! Payment Succefful"),
+              content: Text("Great! Payment Successful :)"),
               backgroundColor: Colors.green,
             ));
           }else if (state is PaynowPaymentFailureState){
